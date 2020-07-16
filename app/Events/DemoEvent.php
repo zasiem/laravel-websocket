@@ -33,6 +33,6 @@ class DemoEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('DemoChannel');
+        return new Channel('demo');
     }
 }

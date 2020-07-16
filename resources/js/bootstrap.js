@@ -40,10 +40,10 @@ window.Echo = new Echo({
     wsPort: 6001,
     wssPort: 6001,
     disableStats: true,
-    enabledTransports: ["ws", "wss"],
+    enabledTransports: ["ws"],
 });
 
-window.Echo.channel('DemoChannel')
+window.Echo.channel('demo')
 .listen('DemoEvent', (e) => {
     console.log(e);
     console.log("a");
