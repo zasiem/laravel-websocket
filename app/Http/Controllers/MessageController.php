@@ -6,8 +6,10 @@ use App\Message;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
-
+use DB;
 use Broadcast;
+
+use App\Events\MessageEvent;
 
 class MessageController extends Controller
 {
@@ -122,15 +124,21 @@ class MessageController extends Controller
 
     public function sendMessage(Request $request, $receiver)
     {
+        DB::beginTransaction();
         $message = Message::create([
             'sender' => Auth::user()->id,
             'receiver' => $receiver,
             'message' => $request->message,
         ]);
+
         $newMessage = Message::with(['sender','receiver'])
         ->where('id', $message->id)
         ->first();
-
+            
+        broadcast(new MessageEvent($newMessage));
+        
+        DB::commit();
+        
         return $newMessage;
     }
 }
