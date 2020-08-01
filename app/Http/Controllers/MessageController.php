@@ -120,14 +120,17 @@ class MessageController extends Controller
         return $messages;
     }
 
-    public function sendMessage(Request $request)
+    public function sendMessage(Request $request, $receiver)
     {
-        Message::create([
+        $message = Message::create([
             'sender' => Auth::user()->id,
-            'receiver' => $request->receiver,
+            'receiver' => $receiver,
             'message' => $request->message,
         ]);
+        $newMessage = Message::with(['sender','receiver'])
+        ->where('id', $message->id)
+        ->first();
 
-        return ['status' => 'success'];
+        return $newMessage;
     }
 }

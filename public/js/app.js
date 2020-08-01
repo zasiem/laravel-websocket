@@ -1923,11 +1923,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['receiver', 'sender'],
+  props: ["receiver", "sender"],
   data: function data() {
     return {
-      messages: []
+      messages: [],
+      newMessage: ""
     };
   },
   created: function created() {
@@ -1941,6 +1948,28 @@ __webpack_require__.r(__webpack_exports__);
       axios.get(url).then(function (response) {
         _this.messages = response.data;
       });
+    },
+    sendMessage: function sendMessage() {
+      var _this2 = this;
+
+      var url = "/chat/" + this.receiver + "/send";
+      axios.post(url, {
+        message: this.newMessage
+      }).then(function (response) {
+        _this2.newMessage = response.data;
+
+        _this2.messages.push({
+          receiver: _this2.newMessage.receiver,
+          message: _this2.newMessage.message,
+          sender: _this2.newMessage.sender
+        });
+
+        _this2.refreshForm();
+      });
+    },
+    refreshForm: function refreshForm() {
+      $("#chat").scrollTop($("#chat")[0].scrollHeight);
+      this.newMessage = '';
     }
   }
 });
@@ -47848,40 +47877,68 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "card-body" }, [
-      _c(
-        "ul",
-        _vm._l(_vm.messages, function(message) {
-          return _c("li", [
-            _vm._v(
-              "\n          " +
-                _vm._s(message.sender.name) +
-                " : " +
-                _vm._s(message.message) +
-                "\n      "
-            )
-          ])
-        }),
-        0
-      )
-    ]),
+    _c(
+      "div",
+      {
+        staticClass: "card-body",
+        staticStyle: { height: "65vh", "overflow-y": "scroll" },
+        attrs: { id: "chat" }
+      },
+      [
+        _c(
+          "ul",
+          _vm._l(_vm.messages, function(message) {
+            return _c("li", [
+              _vm._v(
+                _vm._s(message.sender.name) + " : " + _vm._s(message.message)
+              )
+            ])
+          }),
+          0
+        )
+      ]
+    ),
     _vm._v(" "),
-    _vm._m(0)
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-footer" }, [
+    _c("div", { staticClass: "card-footer" }, [
       _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.newMessage,
+            expression: "newMessage"
+          }
+        ],
         staticClass: "form-control",
-        attrs: { type: "text", name: "message", placeholder: "Masukan pesan" }
+        attrs: {
+          type: "text",
+          name: "message",
+          id: "inputMessage",
+          placeholder: "Masukan pesan"
+        },
+        domProps: { value: _vm.newMessage },
+        on: {
+          keyup: function($event) {
+            if (
+              !$event.type.indexOf("key") &&
+              _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+            ) {
+              return null
+            }
+            return _vm.sendMessage($event)
+          },
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.newMessage = $event.target.value
+          }
+        }
       })
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
