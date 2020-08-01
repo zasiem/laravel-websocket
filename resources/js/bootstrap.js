@@ -41,6 +41,7 @@ window.Echo = new Echo({
     wssPort: 6001,
     disableStats: true,
     enabledTransports: ["ws"],
+    encrypted: false,
 });
 
 window.Echo.channel('demo')
