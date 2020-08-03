@@ -28,3 +28,15 @@ pastikan sudah terinstall php 7 dan dbms (mysql)
 1. global chat (done)
 2. private chat (fixing bugs)
 3. api private chat
+
+## Developers
+1. Erza Putra Albasori - Software Engineer
+2. G N Kresna Adiputra - UI Engineer
+
+## Stacks
+1. [Laravel](https://laravel.com/docs)
+2. [Vue.js](https://vuejs.org/)
+3. [Bootstrap](https://getbootstrap.com/)
+4. [pusher-php-server](https://github.com/pusher/pusher-http-php)
+5. [Laravel websockets by beyondcode](https://beyondco.de/docs/laravel-websockets/getting-started/introduction)
+6. [Vue-chat-scroll](https://github.com/theomessin/vue-chat-scroll)
