@@ -9,7 +9,7 @@ class Message extends Model
     protected $table = 'messages';
 
     protected $fillable = [
-        'sender','receiver','message'
+        'sender','receiver','message','room_code'
     ];
 
     public function sender()
